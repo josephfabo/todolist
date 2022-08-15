@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Todo</title>
+<style type="text/css">
+  body{
+    background-color: rgb(72, 72, 248);
+    line-height: 1.58;
+        font-family: arial,sans-serif;
+    font-size: 14px;
+  }
+        .table {
+          background-color: #fff;
+          padding: 20px;
+border: 1px solid #ddd;
+}
+.bigbox{
+top: 50%;
+  left: 50%;
+  position: absolute;
+  margin: 0;
+  transform: translate(-50%, -50%);
+      line-height: 1.34;
+}
+
+.img{
+  height: 140px;
+  width: 200px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
+.des{
+  font-size: 12px;
+}
+.table {
+  border-spacing: 0;
+  width: 400px;
+  border: 1px solid #ddd;
+}
+.name{
+  height: 33px;
+  align-items: center;
+  align-content: center;
+}
+.email{
+   width: 325px;
+   height: 36px;
+}
+.submit{
+  background-color: rgb(72, 72, 248);
+   width: 60px;
+   height: 26px;
+   font-size: 9px;
+   text-align: center;
+   color: #fff;
+   border-radius: 4px;
+   border: none;
+   outline: none;
+
+}
+.headtext{
+  text-align: center;
+  text-decoration: bold;
+  font-size: 25px;
+  font-weight: 600;
+}
+.subtext{
+  text-align: center;
+}
+th, td {
+  text-align: left;
+  padding: 16px;
+}
+
+tr:nth-child(even) {
+  background-color: #4285f487
+}  
+ul {
+        margin: 0 auto;
+        list-style-type: disc;
+    }
+li {
+        display: inline;
+        font-size: 15px;
+        vertical-align: baseline;
+        background: transparent;
+    }
+a.selected{
+  color:rgb(72, 72, 248);
+  text-decoration: underline;
+  text-decoration-color:rgb(72, 72, 248);
+}
+</style>
+</head>
+<body>
+<div class="bigbox">
+  <div class="table" >
+    <input style="display: inline;" class="email" type="text" placeholder="Add a new Task" id="userInput"><button style="display: inline;margin-left: 5px;height: 36px;" class="submit" onclick="btnfun()">Post</button><br><br>
+
+  <ul style="list-style-type: disc; font-family: arial,sans-serif;padding: 0;">
+      <li style="padding-right: 20px;"><a class="selected" id="all" onclick="btnall()" style="display:inline;">All</a></li>
+      <li style="padding-right: 20px;"><a class="" id="pending" onclick="btnpending()" style="display: inline;">Pending</a></li>
+      <li style="padding-right: 140px;"><a class="" id="complete" onclick="btncomplete()" style="display: inline;">Completed</a></li>
+      <li style="float: right;"><button style="display: inline;" class="submit" onclick="btnclear()">Clear All</button></li>
+      </ul><br>
+
+  <hr>
+  <div id="table">
+    
+  </div>
+  </div>
+
+</div>
+<script type="text/javascript">
+  $('a').each(function(){
+     $(this).click(function(){
+        $('a').removeClass('selected');
+        $(this).addClass('selected');
+    });
+  });
+
+  function btnfun() {
+    var input = document.getElementById('userInput').value;
+
+    if (input.length == 0) {
+      alert('input cant be empty');
+    }else{
+      var div = document.createElement('div');
+      var hr = document.createElement('HR');
+
+      var span = document.createElement('span');
+      var checkbox = document.createElement('input');
+      div.className = "name";
+      div.id = "unchecked";
+      hr.id = "uncheckedline";
+      checkbox.type="checkbox";
+      var node = document.createTextNode(" "+input);
+      span.appendChild(node);
+
+      checkbox.addEventListener("change", (e) => {
+        if (e.target.checked) {
+          div.id = "checked";
+          hr.id = "checkedline";
+        }else{
+          div.id = "unchecked";
+          hr.id = "uncheckedline";
+        }
+      });
+
+      div.appendChild(checkbox);
+      div.appendChild(span);
+
+      var bigdiv = document.getElementById('table');
+      bigdiv.appendChild(div);
+      bigdiv.appendChild(hr);
+
+      document.getElementById('userInput').value = '';
+
+      var as = document.getElementsByTagName('a');
+    for (var i = 0; i<as.length; i++) {
+      as[i].className = '';
+    }
+    document.getElementById('all').className = 'selected';
+
+
+    }
+  }
+
+  function btnclear() {
+    var bigdiv = document.getElementById('table');
+    bigdiv.innerHTML = '';
+  }
+
+  function btncomplete() {
+    var element = document.querySelectorAll('#unchecked');
+    for (var i = 0; i<element.length; i++) {
+      element[i].style.display = 'none';
+    }
+    var elementline = document.querySelectorAll('#uncheckedline');
+    for (var i = 0; i<elementline.length; i++) {
+      elementline[i].style.border = '0';
+    }
+    var elementtwo = document.querySelectorAll('#checked');
+    for (var i = 0; i < elementtwo.length; i++) {
+      elementtwo[i].style.display = 'block';
+    }
+    var elementlinetwo = document.querySelectorAll('#checkedline');
+    for (var i = 0; i<elementlinetwo.length; i++) {
+      elementlinetwo[i].style.border = '';
+    }
+    var penas = document.getElementsByTagName('a');
+    for (var i = 0; i<penas.length; i++) {
+      penas[i].className = '';
+    }
+    document.getElementById('complete').className = 'selected';
+    
+    
+  }
+
+
+  function btnpending() {
+    var penelement = document.querySelectorAll('#checked');
+    for (var i = 0; i<penelement.length; i++) {
+      penelement[i].style.display = 'none';
+    }
+    var penelementline = document.querySelectorAll('#checkedline');
+    for (var i = 0; i<penelementline.length; i++) {
+      penelementline[i].style.border = '0';
+    }
+    var penelementtwo = document.querySelectorAll('#unchecked');
+    for (var i = 0; i < penelementtwo.length; i++) {
+      penelementtwo[i].style.display = 'block';
+    }
+    var penelementlinetwo = document.querySelectorAll('#uncheckedline');
+    for (var i = 0; i<penelementlinetwo.length; i++) {
+      penelementlinetwo[i].style.border = '';
+    }
+    var penas = document.getElementsByTagName('a');
+    for (var i = 0; i<penas.length; i++) {
+      penas[i].className = '';
+    }
+    document.getElementById('pending').className = 'selected';
+  }
+
+  function btnall(){
+
+    var divs = document.getElementsByTagName('div');
+    for (var i = 0; i<divs.length; i++) {
+      divs[i].style.display = 'block';
+    }
+    var lines = document.getElementsByTagName('HR');
+    for (var i = 0; i<lines.length; i++) {
+      lines[i].style.border = '';
+    }
+    var as = document.getElementsByTagName('a');
+    for (var i = 0; i<as.length; i++) {
+      as[i].className = '';
+    }
+    document.getElementById('all').className = 'selected';
+  }
+
+  
+
+</script>
+
+</body>
+</html>
